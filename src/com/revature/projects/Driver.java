@@ -1,6 +1,6 @@
 package com.revature.projects;
 
-import com.revature.projects.models.MyList;
+import com.revature.projects.utilities.MyList;
 
 public class Driver {
     public static void main(String[] args) {
