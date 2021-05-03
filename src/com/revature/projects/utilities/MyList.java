@@ -10,7 +10,7 @@ public class MyList<T> implements List<T>, Iterable<T> {
     private int numberOfElements;
 
     public MyList() {
-        this.array = (T[]) new Object[5];
+        this.array = (T[]) new Object[1];
         numberOfElements = 0;
     }
 
@@ -45,6 +45,11 @@ public class MyList<T> implements List<T>, Iterable<T> {
 
     @Override
     public MyIterator<T> iterator() {
+
+        T[] array = (T[]) new Object[numberOfElements];
+        for (int i = 0; i < numberOfElements; i++) {
+            array[i] = this.array[i];
+        }
         return new MyIterator<T>(array);
     }
 
@@ -93,7 +98,7 @@ public class MyList<T> implements List<T>, Iterable<T> {
 
     @Override
     public void add(int index, T element) {
-        if (index < numberOfElements)
+        if (index < array.length)
         {
             if(array.length == numberOfElements) grow();
 

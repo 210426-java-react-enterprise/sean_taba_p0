@@ -1,30 +1,69 @@
 package com.revature.projects;
 
+import com.revature.projects.screens.CreateUserAccountScreen;
+import com.revature.projects.screens.StartScreen;
+import com.revature.projects.utilities.DAO;
 import com.revature.projects.utilities.MyList;
 
+import java.sql.*;
+import java.util.Scanner;
+
 public class Driver {
+
+    private static DAO dao;
+    private static final Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
-        MyList<Integer> myList = new MyList<>();
-        myList.add(10);
-        myList.add(20);
-        myList.add(30);
-        myList.add(40);
-        myList.add(50);
-        myList.add(60);
 
-        myList.add(3,25);
-        myList.set(6,55);
-        System.out.println("List contains 40: " + myList.contains(40));
-        System.out.println("List contains 65: " + myList.contains(65));
-        System.out.println("List size: " + myList.size());
-        System.out.println("List is empty: " + myList.isEmpty());
-        Object[] myArray = myList.toArray();
+        try {
+            dao = new DAO();
+        } catch (SQLException e)
+        {
+            System.err.println("Error connecting to the SQL server");
+            return;
+        }
 
-        myList.remove(5);
-        Object myInt = myList.get(3);
-        System.out.println("Index of 40: " + myList.indexOf(40));
+        mainLoop:
+        while(true) {
+            StartScreen startScreen = new StartScreen(scanner);
+            int startScreenInput = startScreen.run();
+            switch(startScreenInput)
+            {
+                case 1:
+                    while (true) {
+                        CreateUserAccountScreen createUserAccountScreen = new CreateUserAccountScreen(scanner);
+                        MyList<String> newUserCredentials = createUserAccountScreen.recordNewCredentials();
+
+                        try {
+                            if (dao.tryNewCredentials(newUserCredentials)) {
+                                System.out.println("\nusername already exists. Choose a different username\n");
+                            } else
+                            {
+                                createUserAccountScreen.run();
+                                break;
+                            }
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    break;
+                case 2:
 
 
-        System.out.println(myList);
+                    break;
+
+                case 3:
+                    break mainLoop;
+
+                default:
+                    System.err.println("Incorrect return from StartScreen");
+                    break mainLoop;
+            }
+
+
+        }
+
     }
 }

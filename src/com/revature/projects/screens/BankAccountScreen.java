@@ -1,4 +1,4 @@
 package com.revature.projects.screens;
 
-public class LoginScreen {
+public class BankAccountScreen {
 }
