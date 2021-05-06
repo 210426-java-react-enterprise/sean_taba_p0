@@ -1,8 +1,7 @@
-package com.revature.projects.utilities;
+package com.revature.project0.utilities;
 
 
 import java.util.Arrays;
-import java.util.Iterator;
 
 public class MyList<T> implements List<T>, Iterable<T> {
 

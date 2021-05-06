@@ -1,4 +1,4 @@
-package com.revature.projects.utilities;
+package com.revature.project0.utilities;
 
 
 public interface List<T> {
