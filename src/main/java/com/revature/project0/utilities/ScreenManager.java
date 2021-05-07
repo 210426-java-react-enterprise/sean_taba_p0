@@ -1,5 +1,6 @@
 package com.revature.project0.utilities;
 
+import com.revature.project0.screens.CreateUserAccountScreen;
 import com.revature.project0.screens.Screen;
 import com.revature.project0.screens.StartScreen;
 
@@ -12,6 +13,7 @@ public class ScreenManager {
     {
         screens = new MyList<>();
         screens.add(StartScreen.getInstance());
+        screens.add(CreateUserAccountScreen.getInstance());
     }
 
     public static ScreenManager getInstance()

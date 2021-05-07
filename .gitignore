@@ -28,3 +28,6 @@ target/
 # IDE specific files
 .idea
 *.iml
+
+# App properties
+*.properties

@@ -1,6 +1,18 @@
 package com.revature.project0.utilities;
 
+import java.sql.SQLException;
+
 public class InputValidator {
+
+    private static DAO dao;
+
+    static {
+        try {
+            dao = DAO.getInstance();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static int validate(String input, int min, int max)
     {
@@ -20,9 +32,9 @@ public class InputValidator {
         return -1;
     }
 
-    public static int validate(String input, String identifier)
+    public static String validate(String input, String identifier) throws SQLException
     {
-        if (input == null) return -1;
+        if (input == null) return null;
         switch (identifier)
         {
             case "/username":
@@ -30,9 +42,13 @@ public class InputValidator {
                 if (input.length() < 5 || input.length() > 15)
                 {
                     System.out.println("username length must be 5-15 characters.");
-                    return -1;
+                    return null;
                 }
-                if (input.chars().allMatch(Character::isLetterOrDigit)) return 0;
+                if (input.chars().allMatch(Character::isLetterOrDigit))
+                {
+                    if(dao.tryNewUsername(input))
+                    return input;
+                }
                 System.out.println("Only letters and numbers are allowed.");
                 break;
             case "/password":
@@ -40,6 +56,6 @@ public class InputValidator {
                 break;
 
         }
-        return -1;
+        return null;
     }
 }
