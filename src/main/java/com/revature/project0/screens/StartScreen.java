@@ -29,7 +29,6 @@ public class StartScreen extends Screen {
     public void render() {
         int input = 0;
 
-        clearScreen();
         System.out.println("\n\nWelcome to Sean's banking app.");
         System.out.println("******************************\n");
         System.out.print("What would you like to do,\n\n1.Create an account\n2.Login to your account\n3.Quit\n\nPlease enter your choice: ");
@@ -47,7 +46,6 @@ public class StartScreen extends Screen {
 
                         break;
                     case 3:
-                        clearScreen();
                         System.out.println("Thank you for visiting.\n\nShutting down!\n");
                         Controller.getInstance().setAppRunning(false);
                 }

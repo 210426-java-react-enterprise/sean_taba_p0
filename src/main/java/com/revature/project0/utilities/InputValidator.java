@@ -1,6 +1,7 @@
 package com.revature.project0.utilities;
 
 import java.sql.SQLException;
+import java.util.regex.Pattern;
 
 public class InputValidator {
 
@@ -35,27 +36,146 @@ public class InputValidator {
     public static String validate(String input, String identifier) throws SQLException
     {
         if (input == null) return null;
+        input = input.trim();
         switch (identifier)
         {
             case "/username":
-                input = input.stripLeading().stripTrailing();
-                if (input.length() < 5 || input.length() > 15)
+                if (!isCorrectLength(input, 5, 15))
                 {
                     System.out.println("username length must be 5-15 characters.");
                     return null;
                 }
-                if (input.chars().allMatch(Character::isLetterOrDigit))
+                if (!input.chars().allMatch(Character::isLetterOrDigit))
                 {
-                    if(dao.tryNewUsername(input))
-                    return input;
+                    System.out.println("Only letters and numbers are allowed.");
+                    return null;
                 }
-                System.out.println("Only letters and numbers are allowed.");
-                break;
-            case "/password":
+                if(dao.tryNewUsername(input))
+                {
+                    System.out.println("username entered has already been taken. Use a different username.");
+                    return null;
+                }
+                return input;
 
-                break;
+            case "/password":
+                if (!isCorrectLength(input, 8, 50))
+                {
+                    System.out.println("password length must be 8-50 character.");
+                    return null;
+                }
+                return input;
+
+            case "/name":
+                if (!isCorrectLength(input, 2, 20))
+                {
+                    System.out.println("First name length must be 2-20 character.");
+                    return null;
+                }
+                if (!input.chars().allMatch(Character::isLetter))
+                {
+                    System.out.println("User name can only contain letters.");
+                    return null;
+                }
+                return input;
+
+            case "/ssn":
+                if (!isCorrectLength(input, 9, 9))
+                {
+                    System.out.println("SSN length must be 9 digits.");
+                    return null;
+                }
+                if (!input.chars().allMatch(Character::isDigit))
+                {
+                    System.out.println("SSN can only contain digits.");
+                    return null;
+                }
+                if (dao.tryNewSSN(input))
+                {
+                    System.out.println("SSN has already been used. Please login to your account instead.");
+                    return null;
+                }
+                return input;
+
+            case "/email":
+                if (!input.matches("^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$"))
+                {
+                    System.out.println("Email address is not valid. Please try again.");
+                    return null;
+                }
+                return input;
+
+            case "/phone":
+                if (!isCorrectLength(input, 9, 13))
+                {
+                    System.out.println("Phone number length must be 9-13 digits.");
+                    return null;
+                }
+                if (!input.chars().allMatch(Character::isDigit))
+                {
+                    System.out.println("phone number can only contain digits.");
+                    return null;
+                }
+                return input;
+
+            case "/unit":
+                if (!isCorrectLength(input, 1, 3))
+                {
+                    System.out.println("Unit number length must be 1-3 digits.");
+                    return null;
+                }
+                if (!input.equals("") && !input.chars().allMatch(Character::isDigit))
+                {
+                    System.out.println("Unit number can only contain digits.");
+                    return null;
+                }
+                return input;
+
+            case "/street":
+                if (!isCorrectLength(input, 10, 30))
+                {
+                    System.out.println("Street length must be 10-30 characters.");
+                    return null;
+                }
+                if (!input.replace(' ', 'w').chars().allMatch(Character::isLetterOrDigit))
+                {
+                    System.out.println("Only letters and numbers are allowed.");
+                    return null;
+                }
+                return input;
+
+            case "/city":
+                if (!isCorrectLength(input, 2, 10))
+                {
+                    System.out.println("City name length must be 2-10 character.");
+                    return null;
+                }
+                if (!input.replace(' ', 'w').chars().allMatch(Character::isLetter))
+                {
+                    System.out.println("City name can only contain letters.");
+                    return null;
+                }
+                return input;
+
+            case "/zip":
+                if (!isCorrectLength(input, 5, 5))
+                {
+                    System.out.println("Zip code length must be 5 digits.");
+                    return null;
+                }
+                if (!input.chars().allMatch(Character::isDigit))
+                {
+                    System.out.println("Zip code can only contain digits.");
+                    return null;
+                }
+                return input;
 
         }
         return null;
+    }
+
+    private static boolean isCorrectLength(String input, int lowerBound, int higherBound)
+    {
+        if (input.length() < lowerBound || input.length() > higherBound) return false;
+        return true;
     }
 }
