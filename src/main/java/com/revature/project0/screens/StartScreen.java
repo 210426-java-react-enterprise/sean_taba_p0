@@ -43,7 +43,7 @@ public class StartScreen extends Screen {
                         ScreenManager.getInstance().navigate("/create user");
                         break;
                     case 2:
-
+                        ScreenManager.getInstance().navigate("/login");
                         break;
                     case 3:
                         System.out.println("Thank you for visiting.\n\nShutting down!\n");

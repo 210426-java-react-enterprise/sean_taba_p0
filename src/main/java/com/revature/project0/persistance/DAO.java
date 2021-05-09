@@ -1,6 +1,7 @@
-package com.revature.project0.utilities;
+package com.revature.project0.persistance;
 
 import com.revature.project0.models.Customer;
+import com.revature.project0.utilities.MyList;
 
 import java.sql.*;
 
@@ -40,10 +41,10 @@ public class DAO {
         return result.next();
     }
 
-    public boolean addCustomer(Customer customer) throws SQLException
+    public void addCustomer(Customer customer) throws SQLException
     {
         String sqlInsertNewCustomer = "insert into project0.customers (first_name,last_name,ssn,email,phone) values (?,?,?,?,?);";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlInsertNewCustomer, new String[] {"id"});
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlInsertNewCustomer);
         preparedStatement.setString(1, customer.getFirstName());
         preparedStatement.setString(2, customer.getLastName());
         preparedStatement.setString(3, customer.getSsn());
@@ -85,8 +86,33 @@ public class DAO {
 
         if (rowsAffected == 0) System.out.println("Something went wrong!");
 
-
-        return true;
     }
 
+    public String isCorrectPassword(String username) throws SQLException
+    {
+        String query = "select * from project0.credentials where user_name = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1,username);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next())
+        {
+            return resultSet.getString("password");
+        }
+        return null;
+    }
+
+    public MyList<String> getAccounts(String username) throws SQLException
+    {
+        String query = "select account from project0.accounts where user_name = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, username);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        MyList<String> accounts = new MyList<>();
+        while(resultSet.next())
+        {
+            accounts.add(resultSet.getString("account"));
+        }
+        return accounts;
+    }
 }

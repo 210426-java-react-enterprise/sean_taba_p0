@@ -1,6 +1,5 @@
-package com.revature.project0.utilities;
+package com.revature.project0.persistance;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;

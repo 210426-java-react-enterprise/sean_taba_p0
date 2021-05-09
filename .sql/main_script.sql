@@ -8,7 +8,7 @@ delete from project0.credentials ;
 
 select * from project0.addresses a ;
 
-drop table project0.credentials ;
+drop table project0.addresses ;
 
 create table project0.credentials (
 id serial not null,
@@ -28,8 +28,8 @@ create table project0.addresses (
 id serial not null,
 unit varchar(3),
 street varchar(30) not null,
-city varchar(10) not null,
-state varchar(10) not null,
+city varchar(15) not null,
+state varchar(15) not null,
 zip varchar(5) not null,
 customer_ssn varchar(12) not null,
 
@@ -38,5 +38,32 @@ foreign key(customer_ssn)
 references project0.customers(ssn)
 on delete cascade
 );
+
+create table project0.accounts (
+id serial not null,
+user_name varchar(15) not null,
+account varchar(10) not null,
+customer_ssn varchar(12) not null,
+
+foreign key(customer_ssn)
+references project0.customers(ssn)
+on delete cascade
+);
+
+insert into project0.accounts 
+	('seantaba','checking','478589658'),
+	('seantaba','saving','478589658'),
+	('seantaba','trust','478589658');
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -1,7 +1,8 @@
 package com.revature.project0.utilities;
 
+import com.revature.project0.persistance.DAO;
+
 import java.sql.SQLException;
-import java.util.regex.Pattern;
 
 public class InputValidator {
 
@@ -40,6 +41,7 @@ public class InputValidator {
         switch (identifier)
         {
             case "/username":
+            case "/isUsername":
                 if (!isCorrectLength(input, 5, 15))
                 {
                     System.out.println("username length must be 5-15 characters.");
@@ -50,9 +52,14 @@ public class InputValidator {
                     System.out.println("Only letters and numbers are allowed.");
                     return null;
                 }
-                if(dao.tryNewUsername(input))
+                if(identifier.equals("/username") && dao.tryNewUsername(input))
                 {
                     System.out.println("username entered has already been taken. Use a different username.");
+                    return null;
+                }
+                if (identifier.equals("/isUsername") && !dao.tryNewUsername(input))
+                {
+                    System.out.println("username does not exist. Please try again.");
                     return null;
                 }
                 return input;
@@ -144,9 +151,16 @@ public class InputValidator {
                 return input;
 
             case "/city":
-                if (!isCorrectLength(input, 2, 10))
+            case "/state":
+                if (!isCorrectLength(input, 2, 15))
                 {
-                    System.out.println("City name length must be 2-10 character.");
+                    if (identifier.equals("/city"))
+                    {
+                        System.out.println("City name length must be 2-15 character.");
+                    } else
+                    {
+                        System.out.println("State name length must be 2-15 character.");
+                    }
                     return null;
                 }
                 if (!input.replace(' ', 'w').chars().allMatch(Character::isLetter))
@@ -168,6 +182,7 @@ public class InputValidator {
                     return null;
                 }
                 return input;
+
 
         }
         return null;
