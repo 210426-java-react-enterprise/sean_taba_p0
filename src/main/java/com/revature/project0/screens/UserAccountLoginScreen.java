@@ -2,6 +2,7 @@ package com.revature.project0.screens;
 
 import com.revature.project0.utilities.Controller;
 import com.revature.project0.persistance.DAO;
+import com.revature.project0.utilities.CurrentCustomer;
 import com.revature.project0.utilities.InputValidator;
 import com.revature.project0.utilities.ScreenManager;
 
@@ -47,11 +48,14 @@ public class UserAccountLoginScreen extends Screen {
                 return;
             if(password.equals(DAO.getInstance().isCorrectPassword(username)))
             {
-                UserAccountScreen.getInstance().setUsername(username);
-                ScreenManager.getInstance().navigate("/accounts");
+                CurrentCustomer.getInstance().setCustomer(DAO.getInstance().getCustomer(username));
+                ScreenManager.getInstance().navigate("/customer account");
+            } else
+            {
+                System.out.println("Password was not correct. Please try again.");
             }
 
-        } catch (SQLException | ClassNotFoundException e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }

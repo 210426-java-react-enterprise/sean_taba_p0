@@ -1,8 +1,9 @@
 package com.revature.project0.persistance;
 
-import com.revature.project0.models.Customer;
+import com.revature.project0.models.*;
 import com.revature.project0.utilities.MyList;
 
+import javax.accessibility.AccessibleAction;
 import java.sql.*;
 
 public class DAO {
@@ -54,15 +55,6 @@ public class DAO {
         int rowsAffected = preparedStatement.executeUpdate();
         if (rowsAffected == 0) System.out.println("Something went wrong!");
 
-//        int customerID = 0;
-//
-//        if(rowsAffected != 0)
-//        {
-//            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-//            if(resultSet.next())
-//            customerID = resultSet.getInt("id");
-//        } else System.out.println("Something went wrong!");
-
         sqlInsertNewCustomer = "insert into project0.credentials (user_name,password,customer_ssn) values (?,?,?);";
         preparedStatement = connection.prepareStatement(sqlInsertNewCustomer);
         preparedStatement.setString(1, customer.getUsername());
@@ -80,7 +72,7 @@ public class DAO {
         preparedStatement.setString(3, customer.getCity());
         preparedStatement.setString(4, customer.getState());
         preparedStatement.setString(5, customer.getZip());
-        preparedStatement.setString(6, String.valueOf(customer.getSsn()));
+        preparedStatement.setString(6, customer.getSsn());
 
         rowsAffected = preparedStatement.executeUpdate();
 
@@ -101,18 +93,72 @@ public class DAO {
         return null;
     }
 
-    public MyList<String> getAccounts(String username) throws SQLException
+    public Customer getCustomer(String username) throws SQLException
     {
-        String query = "select account from project0.accounts where user_name = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, username);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        String query_1 =
+                "select  customers.first_name,customers.last_name,customers.ssn,customers.email,customers.phone," +
+                        "addresses.unit,addresses.street,addresses.city,addresses.state,addresses.zip," +
+                        "credentials.password " +
+                        "from project0.credentials " +
+                        "join project0.addresses on project0.credentials.customer_ssn = project0.addresses.customer_ssn " +
+                        "join project0.customers on project0.credentials.customer_ssn = project0.customers.ssn;";
+
+        String query_2 =
+                "select * " +
+                "from   project0.accounts " +
+                "where  project0.accounts.user_name = ?";
+
+        PreparedStatement preparedStatement_1 = connection.prepareStatement(query_1);
+        PreparedStatement preparedStatement_2 = connection.prepareStatement(query_2);
+        preparedStatement_2.setString(1, username);
+
+        ResultSet resultSet_1 = preparedStatement_1.executeQuery();
+        ResultSet resultSet_2 = preparedStatement_2.executeQuery();
 
         MyList<String> accounts = new MyList<>();
-        while(resultSet.next())
+        Customer customer = null;
+        if(resultSet_1.next())
         {
-            accounts.add(resultSet.getString("account"));
+            customer = new Customer(resultSet_1.getString("first_name"), resultSet_1.getString("last_name"), resultSet_1.getString("ssn"),
+                                    resultSet_1.getString("email"), resultSet_1.getString("phone"), username, resultSet_1.getString("password"),
+                                    resultSet_1.getString("unit"), resultSet_1.getString("street"), resultSet_1.getString("city"),
+                                    resultSet_1.getString("state"), resultSet_1.getString("zip"));
         }
-        return accounts;
+        while (resultSet_2.next() && customer != null)
+        {
+            String accountType = resultSet_2.getString("account");
+            String number = resultSet_2.getString("number");
+            String accountName = "project0.";
+            Account account = null;
+            switch (accountType)
+            {
+                case "checking":
+                    accountName += "c" + number;
+                    account = new CheckingAccount(number);
+                    break;
+                case "saving":
+                    accountName += "s" + number;
+                    account = new SavingsAccount(number);
+                    break;
+                case "trust":
+                    accountName += "t" + number;
+                    account = new TrustAccount(number);
+                    break;
+                default:
+                    throw new RuntimeException("Illegal account type");
+            }
+            String query = "select * from " + accountName;
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                account.getTransactions().add(new Transaction(resultSet.getString("transaction"), resultSet.getDouble("amount"),
+                                                              resultSet.getDouble("balance")));
+            }
+            customer.getAccounts().add(account);
+        }
+        return customer;
     }
 }

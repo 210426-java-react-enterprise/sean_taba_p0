@@ -1,5 +1,7 @@
 package com.revature.project0.models;
 
+import com.revature.project0.utilities.MyList;
+
 public class Customer
 {
 
@@ -15,6 +17,7 @@ public class Customer
     private String city;
     private String state;
     private String zip;
+    private MyList<Account> accounts;
 
 
     public String getFirstName() {
@@ -123,6 +126,11 @@ public class Customer
         this.zip = zip;
     }
 
+    public MyList<Account> getAccounts()
+    {
+        return accounts;
+    }
+
     public Customer(String firstName, String lastName, String ssn, String email, String phone, String username, String password,
             String unit, String street, String city, String state, String zip)
     {
@@ -138,5 +146,11 @@ public class Customer
         this.city = city;
         this.state = state;
         this.zip = zip;
+        accounts = new MyList<>();
+    }
+
+    public Customer()
+    {
+
     }
 }

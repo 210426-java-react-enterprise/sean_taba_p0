@@ -10,6 +10,8 @@ select * from project0.addresses a ;
 
 drop table project0.addresses ;
 
+select * from project0.accounts a ;
+
 create table project0.credentials (
 id serial not null,
 user_name varchar(15) not null unique,
@@ -51,13 +53,21 @@ on delete cascade
 );
 
 insert into project0.accounts 
-	('seantaba','checking','478589658'),
-	('seantaba','saving','478589658'),
-	('seantaba','trust','478589658');
+values
+	(1,'seantaba','checking','478589658'),
+	(2,'seantaba','saving','478589658'),
+	(3,'seantaba','trust','478589658');
 
 
 
-
+   select  customers.first_name,customers.last_name,customers.ssn,customers.email,customers.phone,
+   addresses.unit,addresses.street,addresses.city,addresses.state,addresses.zip,
+   credentials.user_name,credentials.password,
+   accounts.account 
+   from project0.customers
+   join project0.addresses on project0.customers.ssn = project0.addresses.customer_ssn
+   join project0.credentials on project0.customers.ssn = project0.credentials.customer_ssn
+   join project0.accounts on project0.customers.ssn = project0.accounts.customer_ssn;
 
 
 

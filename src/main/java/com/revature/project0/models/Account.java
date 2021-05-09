@@ -1,18 +1,46 @@
 package com.revature.project0.models;
 
-public abstract class Account {
-    private String name;
-    private double balance;
+import com.revature.project0.utilities.MyList;
 
-    protected Account(String name)
+public abstract class Account {
+
+    private double balance;
+    private String number;
+    private MyList<Transaction> transactions;
+
+    protected Account(String number)
     {
-        this.name = name;
+        this.number = number;
         balance = 0;
+        transactions = new MyList<>();
     }
-    protected Account(String name, double balance)
+    protected Account(String number, double balance)
     {
-        this.name = name;
+        this.number = number;
         this.balance = balance;
+        transactions = new MyList<>();
+    }
+
+    public Account(String number, double balance, MyList<Transaction> transactions)
+    {
+        this.balance = balance;
+        this.number = number;
+        this.transactions = transactions;
+    }
+
+    public double getBalance()
+    {
+        return balance;
+    }
+
+    public String getNumber()
+    {
+        return number;
+    }
+
+    public MyList<Transaction> getTransactions()
+    {
+        return transactions;
     }
 
     public abstract double deposit(double amount);

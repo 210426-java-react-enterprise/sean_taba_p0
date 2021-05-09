@@ -1,16 +1,28 @@
 package com.revature.project0.models;
 
+import com.revature.project0.utilities.MyList;
+
 public class CheckingAccount extends Account{
 
-
-    public CheckingAccount(String name)
+    public CheckingAccount(String number)
     {
-        super(name);
+        super(number);
     }
 
-    public CheckingAccount(String name, double balance)
+    public CheckingAccount(String number, double balance)
     {
-        super(name, balance);
+        super(number, balance);
+    }
+
+    public CheckingAccount(String number, double balance, MyList<Transaction> transactions)
+    {
+        super(number, balance, transactions);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Checking Account - account number: " + this.getNumber() + " - balance: " + this.getBalance();
     }
 
     @Override

@@ -1,17 +1,19 @@
 package com.revature.project0.screens;
 
+import com.revature.project0.models.Customer;
 import com.revature.project0.utilities.Controller;
 import com.revature.project0.persistance.DAO;
+import com.revature.project0.utilities.CurrentCustomer;
 import com.revature.project0.utilities.MyList;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UserAccountScreen extends Screen {
-    private String username;
+
     private static UserAccountScreen instance;
     private Scanner scanner;
-    private MyList<String> accounts;
+
 
     private UserAccountScreen(String identifier)
     {
@@ -23,7 +25,7 @@ public class UserAccountScreen extends Screen {
     {
         if (instance == null)
         {
-            instance = new UserAccountScreen("/accounts");
+            instance = new UserAccountScreen("/customer account");
         }
         return instance;
     }
@@ -31,28 +33,20 @@ public class UserAccountScreen extends Screen {
     @Override
     public void render()
     {
-        System.out.println(String.format("\n*** %s's accounts ***\n", username));
+        while(true)
+        {
+            Customer customer = CurrentCustomer.getInstance().getCustomer();
+            System.out.println(String.format("\n*** %s's accounts ***\n", customer.getFirstName()));
 
-        try
-        {
-            accounts = DAO.getInstance().getAccounts(username);
-        } catch (SQLException | ClassNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        if (accounts.size() != 0)
-        {
-            for (int i = 0; i < accounts.size(); i++)
+            if (customer.getAccounts().size() != 0)
             {
-                System.out.println(String.format("%d - %s", i + 1, accounts.get(i)));
+                for (int i = 0; i < customer.getAccounts().size(); i++)
+                {
+                    System.out.println(String.format("%d - %s", i + 1, customer.getAccounts().get(i)));
+                }
             }
         }
-
-
     }
 
-    public void setUsername(String username)
-    {
-        this.username = username;
-    }
+
 }
