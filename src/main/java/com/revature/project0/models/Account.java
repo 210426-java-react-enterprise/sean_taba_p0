@@ -4,9 +4,9 @@ import com.revature.project0.utilities.MyList;
 
 public abstract class Account {
 
-    private double balance;
-    private String number;
-    private MyList<Transaction> transactions;
+    protected double balance;
+    protected String number;
+    protected MyList<Transaction> transactions;
 
     protected Account(String number)
     {

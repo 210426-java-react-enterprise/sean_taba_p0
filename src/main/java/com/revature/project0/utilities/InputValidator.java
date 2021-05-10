@@ -1,5 +1,6 @@
 package com.revature.project0.utilities;
 
+import com.revature.project0.models.Account;
 import com.revature.project0.persistance.DAO;
 
 import java.sql.SQLException;
@@ -183,14 +184,45 @@ public class InputValidator {
                 }
                 return input;
 
+            case "/account number":
+                if (!input.chars().allMatch(Character::isLetterOrDigit))
+                {
+                    System.out.println("Illegal characters was used. Please try again.");
+                    return null;
+                }
+                if (!input.matches("^[cst]\\d\\d\\d$"))
+                {
+                    System.out.println("Incorrect account number. Please try again.");
+                    return null;
+                }
+                for (Account account : CurrentCustomer.getInstance().getCustomer().getAccounts())
+                {
+                    if (account.getNumber().equals(input)) return input;
+                }
+                return null;
 
+            case "/withdraw":
+            case "/deposit":
+                try
+                {
+                    Double.parseDouble(input);
+                } catch (NumberFormatException e)
+                {
+                    System.out.println("Illegal value entered. Please try again.");
+                    return null;
+                }
+                if (Double.parseDouble(input) < 0)
+                {
+                    System.out.println("Value must be positive.");
+                    return null;
+                }
+                return input;
         }
         return null;
     }
 
     private static boolean isCorrectLength(String input, int lowerBound, int higherBound)
     {
-        if (input.length() < lowerBound || input.length() > higherBound) return false;
-        return true;
+        return input.length() >= lowerBound && input.length() <= higherBound;
     }
 }

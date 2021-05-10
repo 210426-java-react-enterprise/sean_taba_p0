@@ -14,6 +14,8 @@ public class ScreenManager {
         screens.add(CreateUserAccountScreen.getInstance());
         screens.add(UserAccountLoginScreen.getInstance());
         screens.add(UserAccountScreen.getInstance());
+        screens.add(DepositScreen.getInstance());
+        screens.add(WithdrawalScreen.getInstance());
     }
 
     public static ScreenManager getInstance()

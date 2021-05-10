@@ -28,12 +28,16 @@ public class TrustAccount extends Account
     @Override
     public double deposit(double amount)
     {
-        return 0;
+        this.balance += amount;
+        transactions.add(new Transaction("deposit", amount, balance));
+        return balance;
     }
 
     @Override
     public double withdraw(double amount)
     {
-        return 0;
+        this.balance -= amount;
+        transactions.add(new Transaction("withdraw", amount, balance));
+        return balance;
     }
 }
