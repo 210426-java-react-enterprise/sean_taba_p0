@@ -43,6 +43,10 @@ public abstract class Account {
         return transactions;
     }
 
+    public void updateBalance()
+    {
+        balance = transactions.getLast().getBalance();
+    }
     public abstract double deposit(double amount);
     public abstract double withdraw(double amount);
 }

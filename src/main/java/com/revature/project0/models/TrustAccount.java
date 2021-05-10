@@ -22,7 +22,7 @@ public class TrustAccount extends Account
     @Override
     public String toString()
     {
-        return "Trust Account - account number: " + this.getNumber() + " - balance: " + this.getBalance();
+        return "Trust Account - account number: " + this.getNumber() + " - balance: $" + this.getBalance();
     }
 
     @Override
@@ -36,6 +36,7 @@ public class TrustAccount extends Account
     @Override
     public double withdraw(double amount)
     {
+        if (amount > balance) return balance;
         this.balance -= amount;
         transactions.add(new Transaction("withdraw", amount, balance));
         return balance;

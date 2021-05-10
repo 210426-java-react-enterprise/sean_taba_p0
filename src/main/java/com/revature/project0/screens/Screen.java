@@ -1,5 +1,10 @@
 package com.revature.project0.screens;
 
+import com.revature.project0.models.CheckingAccount;
+import com.revature.project0.models.SavingsAccount;
+import com.revature.project0.models.TrustAccount;
+import com.revature.project0.utilities.CurrentAccount;
+
 public abstract class Screen {
 
         private final String identifier;
@@ -11,15 +16,23 @@ public abstract class Screen {
 
         public abstract void render();
 
-//        protected void clearScreen()
-//        {
-//            for (int i = 0; i < 50; i++) {
-//                System.out.println();
-//            }
-//        }
-
         public String getIdentifier()
         {
+            return identifier;
+        }
+        protected String getAccountIdentifier()
+        {
+            String identifier = "";
+            if (CurrentAccount.getInstance().getAccount() instanceof CheckingAccount)
+            {
+                identifier = "c";
+            } else if (CurrentAccount.getInstance().getAccount() instanceof SavingsAccount)
+            {
+                identifier = "s";
+            } else if (CurrentAccount.getInstance().getAccount() instanceof TrustAccount)
+            {
+                identifier = "t";
+            }
             return identifier;
         }
 

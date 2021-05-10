@@ -21,7 +21,7 @@ public class SavingsAccount extends Account{
     @Override
     public String toString()
     {
-        return "Savings Account - account number: " + this.getNumber() + " - balance: " + this.getBalance();
+        return "Savings Account - account number: " + this.getNumber() + " - balance: $" + this.getBalance();
     }
     @Override
     public double deposit(double amount)
@@ -34,6 +34,7 @@ public class SavingsAccount extends Account{
     @Override
     public double withdraw(double amount)
     {
+        if (amount > balance) return balance;
         this.balance -= amount;
         transactions.add(new Transaction("withdraw", amount, balance));
         return balance;

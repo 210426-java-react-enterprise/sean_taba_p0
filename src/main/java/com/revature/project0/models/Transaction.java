@@ -27,4 +27,14 @@ public class Transaction
     {
         return balance;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Transaction\t-\t" +
+                "type = '" + type + '\'' +
+                ",\t\tamount =\t$" + amount +
+                ",\t\tbalance =\t$" + balance +
+                '}';
+    }
 }

@@ -2,6 +2,7 @@ package com.revature.project0.screens;
 
 import com.revature.project0.models.Account;
 import com.revature.project0.models.Customer;
+import com.revature.project0.models.Transaction;
 import com.revature.project0.utilities.*;
 import com.revature.project0.persistance.DAO;
 
@@ -30,6 +31,32 @@ public class UserAccountScreen extends Screen
         return instance;
     }
 
+    private Account getCustomerAccount()
+    {
+        System.out.print("Enter the account number to use: ");
+        String input = scanner.nextLine();
+        try
+        {
+            if (InputValidator.validate(input, "/account number") == null)
+                return null;
+
+            Account account = null;
+            for (Account acc : CurrentCustomer.getInstance().getCustomer().getAccounts())
+            {
+                if (acc.getNumber().equals(input))
+                {
+                    account = acc;
+                    return account;
+                }
+            }
+            return null;
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
     public void render()
     {
@@ -50,7 +77,7 @@ public class UserAccountScreen extends Screen
             System.out.println("\nPlease choose an option from the menu:\n");
             System.out.println("1 - Add a new account");
             System.out.println("2 - Add a new transaction");
-            System.out.println("3 - View account transactions");
+            System.out.println("3 - View account");
             System.out.println("4 - Logout");
             System.out.print("\nchoice: ");
             String input = scanner.nextLine();
@@ -81,8 +108,9 @@ public class UserAccountScreen extends Screen
                                 case 3:
                                     newAccountNumber = DAO.getInstance().addAccount('t');
                             }
-                            if(newAccountNumber != null) System.out.println("\nAccount was created successfully. Your new account number is " + newAccountNumber);
-                        } catch(SQLException | ClassNotFoundException e)
+                            if (newAccountNumber != null)
+                                System.out.println("\nAccount was created successfully. Your new account number is " + newAccountNumber);
+                        } catch (SQLException | ClassNotFoundException e)
                         {
                             e.printStackTrace();
                         }
@@ -93,55 +121,43 @@ public class UserAccountScreen extends Screen
                             System.out.println("You have no accounts to make transactions. Please create an account first.");
                             break;
                         }
-                        System.out.print("Enter the account number to use: ");
+                        Account account = getCustomerAccount();
+                        if (account == null) break;
+
+                        System.out.println("\nWhat would you like to do?\n");
+                        System.out.println("1 - Make a deposit");
+                        System.out.println("2 - Make a withdrawal");
+                        System.out.println("3 - Go back");
+                        System.out.print("\nChoice: ");
                         input = scanner.nextLine();
-                        try
-                        {
-                            if (InputValidator.validate(input, "/account number") == null)
-                                break;
-                            Account account = null;
-                            for (Account acc : CurrentCustomer.getInstance().getCustomer().getAccounts())
-                            {
-                                if (acc.getNumber().equals(input))
-                                {
-                                    account = acc;
-                                    System.out.println(account);
-                                    break;
-                                }
-                            }
-                            if (account == null)
-                            {
-                                System.out.println("This account does not belong to you or may not exist. Try again.");
-                                break;
-                            }
-                            System.out.println("\nWhat would you like to do?\n");
-                            System.out.println("1 - Make a deposit");
-                            System.out.println("2 - Make a withdrawal");
-                            System.out.println("3 - Go back");
-                            System.out.print("\nChoice: ");
-                            input = scanner.nextLine();
-                            choice = InputValidator.validate(input, 1, 4);
-                            if (choice == -1)
-                                break;
 
-                            switch (choice)
-                            {
-                                case 1:
-                                    CurrentAccount.getInstance().setAccount(account);
-                                    ScreenManager.getInstance().navigate("/deposit");
-                                    break;
-                                case 2:
-                                    ScreenManager.getInstance().navigate("/withdraw");
-                                case 3:
-                                    break;
-                            }
+                        choice = InputValidator.validate(input, 1, 4);
+                        if (choice == -1)
+                            break;
 
-                        } catch(SQLException e)
+                        switch (choice)
                         {
-                            e.printStackTrace();
+                            case 1:
+                                CurrentAccount.getInstance().setAccount(account);
+                                ScreenManager.getInstance().navigate("/deposit");
+                                break;
+                            case 2:
+                                CurrentAccount.getInstance().setAccount(account);
+                                ScreenManager.getInstance().navigate("/withdraw");
+                            case 3:
+                                break;
                         }
+
                         break;
                     case 3:
+                        Account account1 = getCustomerAccount();
+                        if (account1 == null) break;
+
+                        System.out.println("\n" + account1 + "\n");
+                        for (Transaction transaction : account1.getTransactions())
+                        {
+                            System.out.println(transaction);
+                        }
 
                         break;
 

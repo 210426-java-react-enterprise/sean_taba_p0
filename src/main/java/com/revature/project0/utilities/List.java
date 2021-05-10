@@ -17,5 +17,6 @@ public interface List<T> {
     T remove(int index);
     int indexOf(T element);
     T at(int index);
+    T getLast();
 
 }

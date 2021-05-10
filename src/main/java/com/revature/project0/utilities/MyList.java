@@ -157,4 +157,10 @@ public class MyList<T> implements List<T>, Iterable<T> {
                 "array=" + Arrays.toString(array) +
                 '}';
     }
+
+    @Override
+    public T getLast()
+    {
+        return array[numberOfElements - 1];
+    }
 }

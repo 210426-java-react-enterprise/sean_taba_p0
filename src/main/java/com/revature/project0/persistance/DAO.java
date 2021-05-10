@@ -158,6 +158,7 @@ public class DAO {
                 account.getTransactions().add(new Transaction(resultSet.getString("transaction"), resultSet.getDouble("amount"),
                                                               resultSet.getDouble("balance")));
             }
+            account.updateBalance();
             customer.getAccounts().add(account);
         }
         return customer;

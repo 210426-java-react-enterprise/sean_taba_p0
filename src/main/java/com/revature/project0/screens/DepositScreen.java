@@ -43,17 +43,8 @@ public class DepositScreen extends Screen
                 return;
             String identifier = "";
             CurrentAccount.getInstance().getAccount().deposit(Double.parseDouble(input));
-            if (CurrentAccount.getInstance().getAccount() instanceof CheckingAccount)
-            {
-                identifier = "c";
-            } else if (CurrentAccount.getInstance().getAccount() instanceof SavingsAccount)
-            {
-                identifier = "s";
-            } else if (CurrentAccount.getInstance().getAccount() instanceof TrustAccount)
-            {
-                identifier = "t";
-            }
-            DAO.getInstance().updateAccount(CurrentAccount.getInstance().getAccount(), identifier);
+
+            DAO.getInstance().updateAccount(CurrentAccount.getInstance().getAccount(), getAccountIdentifier());
 
         } catch (SQLException | ClassNotFoundException e)
         {
