@@ -190,7 +190,7 @@ public class InputValidator {
                     System.out.println("Illegal characters was used. Please try again.");
                     return null;
                 }
-                if (!input.matches("^[cst]\\d\\d\\d$"))
+                if (!input.matches("^\\d\\d\\d$"))
                 {
                     System.out.println("Incorrect account number. Please try again.");
                     return null;

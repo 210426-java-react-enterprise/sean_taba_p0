@@ -33,6 +33,7 @@ public class UserAccountScreen extends Screen
     @Override
     public void render()
     {
+        main:
         while (true)
         {
             Customer customer = CurrentCustomer.getInstance().getCustomer();
@@ -105,6 +106,7 @@ public class UserAccountScreen extends Screen
                                 {
                                     account = acc;
                                     System.out.println(account);
+                                    break;
                                 }
                             }
                             if (account == null)
@@ -144,7 +146,9 @@ public class UserAccountScreen extends Screen
                         break;
 
                     case 4:
-
+                        CurrentCustomer.getInstance().setCustomer(null);
+                        CurrentAccount.getInstance().setAccount(null);
+                        break main;
 
                 }
             }

@@ -66,7 +66,7 @@ public class DAO {
 
         if (rowsAffected == 0) System.out.println("Something went wrong!");
 
-        sqlInsertNewCustomer = "insert into project0.addresses (unit,street,city,state,zip,customer_ssn) values (?,?,?,?,?,?);";
+        sqlInsertNewCustomer = "insert into project0.addresses (unit,street,city,\"state\",zip,customer_ssn) values (?,?,?,?,?,?)";
         preparedStatement = connection.prepareStatement(sqlInsertNewCustomer);
         preparedStatement.setString(1, customer.getUnit());
         preparedStatement.setString(2, customer.getStreet());
@@ -214,9 +214,9 @@ public class DAO {
         return null;
     }
 
-    public void updateAccount(Account account) throws SQLException
+    public void updateAccount(Account account, String identifier) throws SQLException
     {
-        String query = "insert into project0." + account.getNumber() + " (transaction,amount,balance) values (?,?,?);";
+        String query = "insert into project0." + identifier + account.getNumber() + " (transaction,amount,balance) values (?,?,?);";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, account.getTransactions().at(account.getTransactions().size() - 1).getType());
         preparedStatement.setDouble(2, account.getTransactions().at(account.getTransactions().size() - 1).getAmount());

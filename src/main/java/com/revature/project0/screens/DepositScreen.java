@@ -1,5 +1,8 @@
 package com.revature.project0.screens;
 
+import com.revature.project0.models.CheckingAccount;
+import com.revature.project0.models.SavingsAccount;
+import com.revature.project0.models.TrustAccount;
 import com.revature.project0.persistance.DAO;
 import com.revature.project0.utilities.Controller;
 import com.revature.project0.utilities.CurrentAccount;
@@ -38,8 +41,19 @@ public class DepositScreen extends Screen
         {
             if (InputValidator.validate(input, "/deposit") == null)
                 return;
+            String identifier = "";
             CurrentAccount.getInstance().getAccount().deposit(Double.parseDouble(input));
-            DAO.getInstance().updateAccount(CurrentAccount.getInstance().getAccount());
+            if (CurrentAccount.getInstance().getAccount() instanceof CheckingAccount)
+            {
+                identifier = "c";
+            } else if (CurrentAccount.getInstance().getAccount() instanceof SavingsAccount)
+            {
+                identifier = "s";
+            } else if (CurrentAccount.getInstance().getAccount() instanceof TrustAccount)
+            {
+                identifier = "t";
+            }
+            DAO.getInstance().updateAccount(CurrentAccount.getInstance().getAccount(), identifier);
 
         } catch (SQLException | ClassNotFoundException e)
         {
