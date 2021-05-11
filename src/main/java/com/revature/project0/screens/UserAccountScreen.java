@@ -5,6 +5,7 @@ import com.revature.project0.models.Customer;
 import com.revature.project0.models.Transaction;
 import com.revature.project0.utilities.*;
 import com.revature.project0.persistance.DAO;
+import exceptions.IllegalInputException;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -58,7 +59,7 @@ public class UserAccountScreen extends Screen
     }
 
     @Override
-    public void render()
+    public void render() throws IllegalInputException
     {
         main:
         while (true)
@@ -110,7 +111,7 @@ public class UserAccountScreen extends Screen
                             }
                             if (newAccountNumber != null)
                                 System.out.println("\nAccount was created successfully. Your new account number is " + newAccountNumber);
-                        } catch (SQLException | ClassNotFoundException e)
+                        } catch (SQLException | ClassNotFoundException | IllegalInputException e)
                         {
                             e.printStackTrace();
                         }

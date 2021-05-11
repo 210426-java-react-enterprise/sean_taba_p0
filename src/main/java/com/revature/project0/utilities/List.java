@@ -1,6 +1,8 @@
 package com.revature.project0.utilities;
 
 
+import exceptions.IllegalInputException;
+
 public interface List<T> {
 
     int size();
@@ -8,8 +10,8 @@ public interface List<T> {
     boolean contains(T element);
     MyIterator<T> iterator();
     T[] toArray();
-    boolean add(T element);
-    void add(int index, T element);
+    boolean add(T element) throws IllegalInputException;
+    void add(int index, T element) throws IllegalInputException;
     void clear();
     T get(int index);
     T set(int index, T element);

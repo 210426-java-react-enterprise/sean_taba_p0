@@ -4,6 +4,7 @@ import com.revature.project0.models.CheckingAccount;
 import com.revature.project0.models.SavingsAccount;
 import com.revature.project0.models.TrustAccount;
 import com.revature.project0.utilities.CurrentAccount;
+import exceptions.IllegalInputException;
 
 public abstract class Screen {
 
@@ -14,7 +15,7 @@ public abstract class Screen {
             this.identifier = identifier;
         }
 
-        public abstract void render();
+        public abstract void render() throws IllegalInputException;
 
         public String getIdentifier()
         {

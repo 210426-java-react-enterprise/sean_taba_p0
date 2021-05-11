@@ -1,6 +1,8 @@
 package com.revature.project0.utilities;
 
 
+import exceptions.IllegalInputException;
+
 import java.util.Arrays;
 
 public class MyList<T> implements List<T>, Iterable<T> {
@@ -62,8 +64,9 @@ public class MyList<T> implements List<T>, Iterable<T> {
     }
 
     @Override
-    public boolean add(T element)
+    public boolean add(T element) throws IllegalInputException
     {
+        if (element == null) throw new IllegalInputException();
         if(array.length == numberOfElements) grow();
         array[numberOfElements] = element;
         numberOfElements++;
@@ -75,10 +78,12 @@ public class MyList<T> implements List<T>, Iterable<T> {
         for (T t : array) {
             t = null;
         }
+        numberOfElements = 0;
     }
 
     @Override
     public T get(int index) {
+        if (index < 0) return null;
         if(index < numberOfElements)
         return array[index];
         return null;
@@ -96,7 +101,9 @@ public class MyList<T> implements List<T>, Iterable<T> {
     }
 
     @Override
-    public void add(int index, T element) {
+    public void add(int index, T element) throws IllegalInputException
+    {
+        if (element == null) throw new IllegalInputException();
         if (index < array.length)
         {
             if(array.length == numberOfElements) grow();
@@ -109,13 +116,17 @@ public class MyList<T> implements List<T>, Iterable<T> {
         }
     }
 
-    //fix the remove function
     @Override
     public boolean remove(T element) {
+        if (element == null) return false;
         for (int i = 0; i < numberOfElements; i++) {
             if(element.equals(array[i]))
             {
-                remove(i);
+                for (int j = i; j < numberOfElements - 1; j++)
+                {
+                    array[j] = array[j + 1];
+                }
+                numberOfElements--;
                 return true;
             }
         }
@@ -124,6 +135,8 @@ public class MyList<T> implements List<T>, Iterable<T> {
 
     @Override
     public T remove(int index) {
+        if (index < 0) return null;
+        T tempObject = array[index];
         if (index < numberOfElements)
         {
             for (int i = index; i < numberOfElements - 1; i++) {
@@ -132,7 +145,7 @@ public class MyList<T> implements List<T>, Iterable<T> {
             array[numberOfElements - 1] = null;
             numberOfElements--;
         }
-        return null;
+        return tempObject;
     }
 
     @Override

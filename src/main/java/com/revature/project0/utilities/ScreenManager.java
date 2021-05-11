@@ -1,13 +1,14 @@
 package com.revature.project0.utilities;
 
 import com.revature.project0.screens.*;
+import exceptions.IllegalInputException;
 
 public class ScreenManager {
 
     private MyList<Screen> screens;
     private static ScreenManager instance;
 
-    private ScreenManager()
+    private ScreenManager() throws IllegalInputException
     {
         screens = new MyList<>();
         screens.add(StartScreen.getInstance());
@@ -18,7 +19,7 @@ public class ScreenManager {
         screens.add(WithdrawalScreen.getInstance());
     }
 
-    public static ScreenManager getInstance()
+    public static ScreenManager getInstance() throws IllegalInputException
     {
         if (instance == null)
         {
@@ -27,7 +28,7 @@ public class ScreenManager {
         return instance;
     }
 
-    public void navigate(String identifier)
+    public void navigate(String identifier) throws IllegalInputException
     {
         for (Screen screen : screens) {
             if (screen.getIdentifier().equals(identifier))

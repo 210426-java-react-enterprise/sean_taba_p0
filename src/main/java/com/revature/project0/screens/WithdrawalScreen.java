@@ -7,6 +7,7 @@ import com.revature.project0.persistance.DAO;
 import com.revature.project0.utilities.Controller;
 import com.revature.project0.utilities.CurrentAccount;
 import com.revature.project0.utilities.InputValidator;
+import exceptions.IllegalInputException;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -45,7 +46,7 @@ public class WithdrawalScreen extends Screen
 
             DAO.getInstance().updateAccount(CurrentAccount.getInstance().getAccount(), getAccountIdentifier());
 
-        } catch (SQLException | ClassNotFoundException e)
+        } catch (SQLException | ClassNotFoundException | IllegalInputException e)
         {
             e.printStackTrace();
         }

@@ -2,6 +2,7 @@ package com.revature.project0;
 
 import com.revature.project0.utilities.Controller;
 import com.revature.project0.utilities.ScreenManager;
+import exceptions.IllegalInputException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 
 import java.util.regex.Matcher;
@@ -10,7 +11,8 @@ import java.util.regex.Pattern;
 public class Driver {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalInputException
+    {
 
         while (Controller.getInstance().isAppRunning())
         {

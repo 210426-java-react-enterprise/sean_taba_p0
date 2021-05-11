@@ -3,6 +3,7 @@ package com.revature.project0.persistance;
 import com.revature.project0.models.*;
 import com.revature.project0.utilities.CurrentCustomer;
 import com.revature.project0.utilities.MyList;
+import exceptions.IllegalInputException;
 
 import javax.accessibility.AccessibleAction;
 import java.sql.*;
@@ -94,7 +95,7 @@ public class DAO {
         return null;
     }
 
-    public Customer getCustomer(String username) throws SQLException
+    public Customer getCustomer(String username) throws SQLException, IllegalInputException
     {
         String query_1 =
                 "select  customers.first_name,customers.last_name,customers.ssn,customers.email,customers.phone," +
@@ -164,7 +165,7 @@ public class DAO {
         return customer;
     }
 
-    public String addAccount(char identifier) throws SQLException
+    public String addAccount(char identifier) throws SQLException, IllegalInputException
     {
         int lastTableNumber = 0;
         String query = "select max(number) from project0.accounts;";

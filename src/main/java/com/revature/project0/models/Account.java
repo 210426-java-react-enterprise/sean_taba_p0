@@ -1,6 +1,7 @@
 package com.revature.project0.models;
 
 import com.revature.project0.utilities.MyList;
+import exceptions.IllegalInputException;
 
 public abstract class Account {
 
@@ -47,6 +48,6 @@ public abstract class Account {
     {
         balance = transactions.getLast().getBalance();
     }
-    public abstract double deposit(double amount);
-    public abstract double withdraw(double amount);
+    public abstract double deposit(double amount) throws IllegalInputException;
+    public abstract double withdraw(double amount) throws IllegalInputException;
 }
