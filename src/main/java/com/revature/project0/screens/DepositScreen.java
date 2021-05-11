@@ -45,7 +45,7 @@ public class DepositScreen extends Screen
             String identifier = "";
             CurrentAccount.getInstance().getAccount().deposit(Double.parseDouble(input));
 
-            DAO.getInstance().updateAccount(CurrentAccount.getInstance().getAccount(), getAccountIdentifier());
+            DAO.getInstance().updateAccount(CurrentAccount.getInstance().getAccount());
 
         } catch (SQLException | ClassNotFoundException | IllegalInputException e)
         {

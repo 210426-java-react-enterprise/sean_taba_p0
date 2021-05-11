@@ -174,6 +174,7 @@ public class MyList<T> implements List<T>, Iterable<T> {
     @Override
     public T getLast()
     {
+        if (numberOfElements == 0) return null;
         return array[numberOfElements - 1];
     }
 }

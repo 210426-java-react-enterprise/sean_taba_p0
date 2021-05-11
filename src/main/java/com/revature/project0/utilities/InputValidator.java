@@ -182,6 +182,7 @@ public class InputValidator {
                     System.out.println("Zip code can only contain digits.");
                     return null;
                 }
+
                 return input;
 
             case "/account number":
@@ -190,7 +191,7 @@ public class InputValidator {
                     System.out.println("Illegal characters was used. Please try again.");
                     return null;
                 }
-                if (!input.matches("^\\d\\d\\d$"))
+                if (!input.matches("^[0-9]+$"))
                 {
                     System.out.println("Incorrect account number. Please try again.");
                     return null;

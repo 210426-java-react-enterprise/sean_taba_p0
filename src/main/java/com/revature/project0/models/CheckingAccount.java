@@ -31,15 +31,21 @@ public class CheckingAccount extends Account{
     {
         this.balance += amount;
         transactions.add(new Transaction("deposit", amount, balance));
+        System.out.println("Deposit successful.");
         return balance;
     }
 
     @Override
     public double withdraw(double amount) throws IllegalInputException
     {
-        if (amount > balance) return balance;
+        if (amount > balance)
+        {
+            System.out.println("Amount specified is greater than the balance. Please try again.");
+            return -1;
+        }
         this.balance -= amount;
         transactions.add(new Transaction("withdraw", amount, balance));
+        System.out.println("Withdrawal successful.");
         return balance;
     }
 }

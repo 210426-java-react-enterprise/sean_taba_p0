@@ -87,23 +87,16 @@ public class CreateUserAccountScreen extends Screen
             if (zip == null) return;
 
             Customer newCustomer = new Customer(firstName, lastName, ssn, email, phone, username, password, unit, street, city, state, zip);
-//        Customer newCustomer = new Customer("sean", "taba", "547858965", "sean@gmail.com", "4587458758", "seantaba", "seantabapassword", "", "213313 skjdf  " +
-//                "sdfh", "albany", "new york", "47854");
-//        try
-//        {
+
             DAO.getInstance().addCustomer(newCustomer);
-//        } catch (SQLException throwables)
-//        {
-//            throwables.printStackTrace();
-//        } catch (ClassNotFoundException classNotFoundException)
-//        {
-//            classNotFoundException.printStackTrace();
-//        }
+
+            System.out.println("Account created successfully.");
 
         } catch (SQLException |
                 ClassNotFoundException e)
 
         {
+            System.out.println("Account creation failed");
             e.printStackTrace();
         }
 

@@ -42,9 +42,8 @@ public class WithdrawalScreen extends Screen
             if (InputValidator.validate(input, "/withdraw") == null)
                 return;
 
-            CurrentAccount.getInstance().getAccount().withdraw(Double.parseDouble(input));
-
-            DAO.getInstance().updateAccount(CurrentAccount.getInstance().getAccount(), getAccountIdentifier());
+            if(CurrentAccount.getInstance().getAccount().withdraw(Double.parseDouble(input)) != -1)
+                DAO.getInstance().updateAccount(CurrentAccount.getInstance().getAccount());
 
         } catch (SQLException | ClassNotFoundException | IllegalInputException e)
         {

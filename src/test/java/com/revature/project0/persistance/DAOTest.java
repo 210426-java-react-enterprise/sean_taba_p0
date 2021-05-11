@@ -29,6 +29,6 @@ public class DAOTest
     @Test
     public void test_tryNewUsernameSqlException()
     {
-        when()
+
     }
 }

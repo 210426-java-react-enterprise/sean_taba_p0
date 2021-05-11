@@ -101,13 +101,13 @@ public class UserAccountScreen extends Screen
                             switch (choice)
                             {
                                 case 1:
-                                    newAccountNumber = DAO.getInstance().addAccount('c');
+                                    newAccountNumber = DAO.getInstance().addAccount("checking");
                                     break;
                                 case 2:
-                                    newAccountNumber = DAO.getInstance().addAccount('s');
+                                    newAccountNumber = DAO.getInstance().addAccount("savings");
                                     break;
                                 case 3:
-                                    newAccountNumber = DAO.getInstance().addAccount('t');
+                                    newAccountNumber = DAO.getInstance().addAccount("trust");
                             }
                             if (newAccountNumber != null)
                                 System.out.println("\nAccount was created successfully. Your new account number is " + newAccountNumber);
@@ -165,6 +165,7 @@ public class UserAccountScreen extends Screen
                     case 4:
                         CurrentCustomer.getInstance().setCustomer(null);
                         CurrentAccount.getInstance().setAccount(null);
+//                        customer = null;
                         break main;
 
                 }
