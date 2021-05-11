@@ -17,6 +17,10 @@ public class DAO {
         Class.forName("org.postgresql.Driver");
         this.connection = ConnectionManager.getInstance().getConnection();
     }
+    public DAO(Connection connection)
+    {
+        this.connection = connection;
+    }
 
     public static DAO getInstance() throws SQLException, ClassNotFoundException
     {

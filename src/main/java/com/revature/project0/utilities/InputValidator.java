@@ -26,7 +26,7 @@ public class InputValidator {
             {
                 return number;
             }
-            System.out.println("Your entry was out of range. Must be 1,2 or 3.");
+            System.out.println("Your entry was out of range. Must be between " + min + " and " + max);
         } catch (NumberFormatException e)
         {
             System.out.println("Your entry is not a number");
@@ -37,7 +37,7 @@ public class InputValidator {
 
     public static String validate(String input, String identifier) throws SQLException
     {
-        if (input == null) return null;
+        if (input == null || identifier == null) return null;
         input = input.trim();
         switch (identifier)
         {
@@ -166,7 +166,7 @@ public class InputValidator {
                 }
                 if (!input.replace(' ', 'w').chars().allMatch(Character::isLetter))
                 {
-                    System.out.println("City name can only contain letters.");
+                    System.out.println("City/State name can only contain letters.");
                     return null;
                 }
                 return input;
