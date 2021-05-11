@@ -46,7 +46,10 @@ public abstract class Account {
 
     public void updateBalance()
     {
-        balance = transactions.getLast().getBalance();
+        if (!transactions.isEmpty())
+        {
+            balance = transactions.getLast().getBalance();
+        }
     }
     public abstract double deposit(double amount) throws IllegalInputException;
     public abstract double withdraw(double amount) throws IllegalInputException;
