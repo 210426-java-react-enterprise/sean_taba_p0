@@ -69,11 +69,37 @@ values
    join project0.credentials on project0.customers.ssn = project0.credentials.customer_ssn
    join project0.accounts on project0.customers.ssn = project0.accounts.customer_ssn;
 
+drop table project0.transactions 
+
+create table project0.transactions (
+id serial not null unique,
+type varchar(10) not null,
+amount decimal not null,
+balance decimal not null,
+account_number varchar(10) not null,
+customer_ssn varchar(10) not null,
+
+primary key(id),
+foreign key(customer_ssn)
+references project0.customers(ssn)
+);
+
+delete from project0.temp 
+
+select  customers.first_name,customers.last_name,customers.ssn,customers.email,customers.phone,addresses.unit,addresses.street,addresses.city,addresses.state,addresses.zip,credentials.password 
+from project0.credentials
+join project0.addresses on project0.credentials.customer_ssn = project0.addresses.customer_ssn 
+join project0.customers on project0.credentials.customer_ssn = project0.customers.ssn
+where project0.credentials.user_name = 'jondoe';
+
+create view myView as select * from project0.accounts a 
+
+drop table temp cascade
+
+create table accounts as table temp 
 
 
+insert into project0.accounts (id,user_name,account,customer_ssn)
+(select id,user_name,account,customer_ssn  from oldaccounts )
 
-
-
-
-
-
+drop table oldaccounts 
