@@ -151,6 +151,6 @@ public class Customer
 
     public Customer()
     {
-
+        accounts = new MyList<>();
     }
 }

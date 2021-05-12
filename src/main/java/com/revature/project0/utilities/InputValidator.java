@@ -16,6 +16,7 @@ public class InputValidator {
 
     public int validate(String input, int min, int max)
     {
+        if (input == null) return -1;
         try
         {
             int number = Integer.parseInt(input);

@@ -52,7 +52,7 @@ public class Controller {
         this.screens = new MyList<>();
         this.screenManager = new ScreenManager(screens);
 
-        this.startScreen = new StartScreen(scanner,inputValidator,screenManager,this);
+        this.startScreen = new StartScreen(scanner,inputValidator, screenManager,this);
         this.createUserAccountScreen = new CreateUserAccountScreen(scanner, inputValidator, dao);
         this.userAccountLoginScreen = new UserAccountLoginScreen(scanner, inputValidator, screenManager, dao);
         this.depositScreen = new DepositScreen(scanner, inputValidator, dao);

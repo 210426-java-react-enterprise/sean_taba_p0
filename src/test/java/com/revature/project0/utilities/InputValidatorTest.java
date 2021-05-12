@@ -1,13 +1,14 @@
 package com.revature.project0.utilities;
 
+import com.revature.project0.models.CheckingAccount;
+import com.revature.project0.models.Customer;
 import com.revature.project0.persistance.DAO;
+import exceptions.IllegalInputException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockedStatic;
-import org.mockito.Mockito;
-
 
 import java.sql.SQLException;
 
@@ -22,18 +23,20 @@ public class InputValidatorTest
     public void setUp()
     {
         mockDAO = mock(DAO.class);
+        inputValidator = new InputValidator(mockDAO);
     }
 
     @After
     public void tearDown()
     {
+        inputValidator = null;
         mockDAO = null;
     }
 
     @Test
     public void test_validateBoundaryNullInput()
     {
-        Assert.assertEquals(-1, inputValidator.validate(null, 1, 3));
+        Assert.assertEquals(-1, inputValidator.validate(null,1, 3));
     }
 
     @Test
@@ -98,6 +101,13 @@ public class InputValidatorTest
     }
 
     @Test
+    public void test_validateStringWithIdentifierValidIdentifierNotExistingUsername() throws SQLException
+    {
+        when(mockDAO.tryNewUsername(anyString())).thenReturn(false);
+        Assert.assertNull(inputValidator.validate("isUsername", "/isUsername"));
+    }
+
+    @Test
     public void test_validateStringWithIdentifierValidIdentifierInvalidLengthPassword() throws SQLException
     {
         Assert.assertNull(inputValidator.validate("pass", "/password"));
@@ -143,8 +153,6 @@ public class InputValidatorTest
     public void test_validateStringWithIdentifierValidIdentifierValidSsnAlreadyTaken() throws SQLException
     {
         when(mockDAO.tryNewSSN(anyString())).thenReturn(true);
-        //mockDAO.tryNewSSN(anyString());
-
         Assert.assertNull(inputValidator.validate("458745874", "/ssn"));
     }
 
@@ -274,8 +282,16 @@ public class InputValidatorTest
     }
 
     @Test
-    public void test_validateStringWithIdentifierValidIdentifierAccountNumberNotFound() throws SQLException
+    public void test_validateStringWithIdentifierValidIdentifierAccountNumberNotFound() throws SQLException, IllegalInputException
     {
+        CurrentCustomer mockCurrentCustomer = mock(CurrentCustomer.class);
+        MockedStatic<CurrentCustomer> currentCustomerMockedStatic = mockStatic(CurrentCustomer.class);
+        Customer stubCustomer = new Customer();
+        stubCustomer.getAccounts().add(new CheckingAccount("110"));
+
+        when(CurrentCustomer.getInstance()).thenReturn(mockCurrentCustomer);
+        when(mockCurrentCustomer.getCustomer()).thenReturn(stubCustomer);
+
         Assert.assertNull(inputValidator.validate("100", "/account number"));
     }
 
