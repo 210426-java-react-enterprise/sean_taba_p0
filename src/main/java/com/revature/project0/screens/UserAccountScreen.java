@@ -12,24 +12,20 @@ import java.util.Scanner;
 
 public class UserAccountScreen extends Screen
 {
-
-    private static UserAccountScreen instance;
     private Scanner scanner;
+    private InputValidator inputValidator;
+    private DAO dao;
+    private ScreenManager screenManager;
 
 
-    private UserAccountScreen(String identifier)
+    public UserAccountScreen(Scanner scanner, InputValidator inputValidator, DAO dao, ScreenManager screenManager)
     {
-        super(identifier);
-        scanner = Controller.getInstance().getScanner();
-    }
+        super("/customer account");
 
-    public static UserAccountScreen getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new UserAccountScreen("/customer account");
-        }
-        return instance;
+        this.scanner = scanner;
+        this.inputValidator = inputValidator;
+        this.dao = dao;
+        this.screenManager = screenManager;
     }
 
     private Account getCustomerAccount()
@@ -38,7 +34,7 @@ public class UserAccountScreen extends Screen
         String input = scanner.nextLine();
         try
         {
-            if (InputValidator.validate(input, "/account number") == null)
+            if (inputValidator.validate(input, "/account number") == null)
                 return null;
 
             Account account = null;
@@ -82,7 +78,7 @@ public class UserAccountScreen extends Screen
             System.out.println("4 - Logout");
             System.out.print("\nchoice: ");
             String input = scanner.nextLine();
-            int choice = InputValidator.validate(input, 1, 4);
+            int choice = inputValidator.validate(input, 1, 4);
             if (choice != -1)
             {
                 switch (choice)
@@ -94,24 +90,24 @@ public class UserAccountScreen extends Screen
                         System.out.println("3 - Trust");
                         System.out.print("\nchoice: ");
                         input = scanner.nextLine();
-                        choice = InputValidator.validate(input, 1, 3);
+                        choice = inputValidator.validate(input, 1, 3);
                         try
                         {
                             String newAccountNumber = "";
                             switch (choice)
                             {
                                 case 1:
-                                    newAccountNumber = DAO.getInstance().addAccount("checking");
+                                    newAccountNumber = dao.addAccount("checking");
                                     break;
                                 case 2:
-                                    newAccountNumber = DAO.getInstance().addAccount("savings");
+                                    newAccountNumber = dao.addAccount("savings");
                                     break;
                                 case 3:
-                                    newAccountNumber = DAO.getInstance().addAccount("trust");
+                                    newAccountNumber = dao.addAccount("trust");
                             }
                             if (newAccountNumber != null)
                                 System.out.println("\nAccount was created successfully. Your new account number is " + newAccountNumber);
-                        } catch (SQLException | ClassNotFoundException | IllegalInputException e)
+                        } catch (SQLException | IllegalInputException e)
                         {
                             e.printStackTrace();
                         }
@@ -132,7 +128,7 @@ public class UserAccountScreen extends Screen
                         System.out.print("\nChoice: ");
                         input = scanner.nextLine();
 
-                        choice = InputValidator.validate(input, 1, 4);
+                        choice = inputValidator.validate(input, 1, 4);
                         if (choice == -1)
                             break;
 
@@ -140,11 +136,11 @@ public class UserAccountScreen extends Screen
                         {
                             case 1:
                                 CurrentAccount.getInstance().setAccount(account);
-                                ScreenManager.getInstance().navigate("/deposit");
+                                screenManager.navigate("/deposit");
                                 break;
                             case 2:
                                 CurrentAccount.getInstance().setAccount(account);
-                                ScreenManager.getInstance().navigate("/withdraw");
+                                screenManager.navigate("/withdraw");
                             case 3:
                                 break;
                         }

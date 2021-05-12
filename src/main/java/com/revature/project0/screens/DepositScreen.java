@@ -1,36 +1,26 @@
 package com.revature.project0.screens;
 
-import com.revature.project0.models.CheckingAccount;
-import com.revature.project0.models.SavingsAccount;
-import com.revature.project0.models.TrustAccount;
 import com.revature.project0.persistance.DAO;
-import com.revature.project0.utilities.Controller;
 import com.revature.project0.utilities.CurrentAccount;
 import com.revature.project0.utilities.InputValidator;
 import exceptions.IllegalInputException;
 
 import java.sql.SQLException;
-import java.util.IllegalFormatCodePointException;
 import java.util.Scanner;
 
 public class DepositScreen extends Screen
 {
     private Scanner scanner;
-    private static DepositScreen instance;
+    private InputValidator inputValidator;
+    private DAO dao;
 
-    private DepositScreen(String identifier)
+    public DepositScreen(Scanner scanner, InputValidator inputValidator, DAO dao)
     {
-        super(identifier);
-        scanner = Controller.getInstance().getScanner();
-    }
+        super("/deposit");
+        this.scanner = scanner;
 
-    public static DepositScreen getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new DepositScreen("/deposit");
-        }
-        return instance;
+        this.inputValidator = inputValidator;
+        this.dao = dao;
     }
 
     @Override
@@ -40,14 +30,14 @@ public class DepositScreen extends Screen
         String input = scanner.nextLine();
         try
         {
-            if (InputValidator.validate(input, "/deposit") == null)
+            if (inputValidator.validate(input, "/deposit") == null)
                 return;
             String identifier = "";
-            CurrentAccount.getInstance().getAccount().deposit(Double.parseDouble(input));
+           CurrentAccount.getInstance().getAccount().deposit(Double.parseDouble(input));
 
-            DAO.getInstance().updateAccount(CurrentAccount.getInstance().getAccount());
+            dao.updateAccount(CurrentAccount.getInstance().getAccount());
 
-        } catch (SQLException | ClassNotFoundException | IllegalInputException e)
+        } catch (SQLException | IllegalInputException e)
         {
             e.printStackTrace();
         }

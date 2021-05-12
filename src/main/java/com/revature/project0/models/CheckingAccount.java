@@ -23,7 +23,7 @@ public class CheckingAccount extends Account{
     @Override
     public String toString()
     {
-        return "Checking Account - account number: " + this.getNumber() + " - balance: $" + this.getBalance();
+        return String.format("%s %s %s%.2f", "Checking Account - account number: ",number," - balance: $",this.getBalance());
     }
 
     @Override

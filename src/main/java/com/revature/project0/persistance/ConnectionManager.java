@@ -9,27 +9,11 @@ import java.util.Properties;
 
 public class ConnectionManager {
 
-    private static ConnectionManager instance;
     private final Properties properties;
 
-    private ConnectionManager()
+    public ConnectionManager(Properties properties)
     {
-        properties = new Properties();
-        try {
-            properties.load(new FileReader("src/main/resources/application.properties"));
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public static ConnectionManager getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new ConnectionManager();
-        }
-        return instance;
+        this.properties = properties;
     }
 
     public Connection getConnection()

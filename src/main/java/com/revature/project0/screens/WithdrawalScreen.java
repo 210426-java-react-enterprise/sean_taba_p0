@@ -1,10 +1,6 @@
 package com.revature.project0.screens;
 
-import com.revature.project0.models.CheckingAccount;
-import com.revature.project0.models.SavingsAccount;
-import com.revature.project0.models.TrustAccount;
 import com.revature.project0.persistance.DAO;
-import com.revature.project0.utilities.Controller;
 import com.revature.project0.utilities.CurrentAccount;
 import com.revature.project0.utilities.InputValidator;
 import exceptions.IllegalInputException;
@@ -15,21 +11,16 @@ import java.util.Scanner;
 public class WithdrawalScreen extends Screen
 {
     private Scanner scanner;
-    private static WithdrawalScreen instance;
+    private InputValidator inputValidator;
+    private DAO dao;
 
-    private WithdrawalScreen(String identifier)
+    public WithdrawalScreen(Scanner scanner, InputValidator inputValidator, DAO dao)
     {
-        super(identifier);
-        scanner = Controller.getInstance().getScanner();
-    }
+        super("/withdraw");
 
-    public static WithdrawalScreen getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new WithdrawalScreen("/withdraw");
-        }
-        return instance;
+        this.scanner = scanner;
+        this.inputValidator = inputValidator;
+        this.dao = dao;
     }
 
     @Override
@@ -39,13 +30,13 @@ public class WithdrawalScreen extends Screen
         String input = scanner.nextLine();
         try
         {
-            if (InputValidator.validate(input, "/withdraw") == null)
+            if (inputValidator.validate(input, "/withdraw") == null)
                 return;
 
             if(CurrentAccount.getInstance().getAccount().withdraw(Double.parseDouble(input)) != -1)
-                DAO.getInstance().updateAccount(CurrentAccount.getInstance().getAccount());
+                dao.updateAccount(CurrentAccount.getInstance().getAccount());
 
-        } catch (SQLException | ClassNotFoundException | IllegalInputException e)
+        } catch (SQLException | IllegalInputException e)
         {
             e.printStackTrace();
         }

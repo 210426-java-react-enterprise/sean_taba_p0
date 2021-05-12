@@ -7,17 +7,14 @@ import java.sql.SQLException;
 
 public class InputValidator {
 
-    private static DAO dao;
+    private final DAO dao;
 
-    static {
-        try {
-            dao = DAO.getInstance();
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public InputValidator(DAO dao)
+    {
+        this.dao = dao;
     }
 
-    public static int validate(String input, int min, int max)
+    public int validate(String input, int min, int max)
     {
         try
         {
@@ -35,7 +32,7 @@ public class InputValidator {
         return -1;
     }
 
-    public static String validate(String input, String identifier) throws SQLException
+    public String validate(String input, String identifier) throws SQLException
     {
         if (input == null || identifier == null) return null;
         input = input.trim();
@@ -222,7 +219,7 @@ public class InputValidator {
         return null;
     }
 
-    private static boolean isCorrectLength(String input, int lowerBound, int higherBound)
+    private boolean isCorrectLength(String input, int lowerBound, int higherBound)
     {
         return input.length() >= lowerBound && input.length() <= higherBound;
     }

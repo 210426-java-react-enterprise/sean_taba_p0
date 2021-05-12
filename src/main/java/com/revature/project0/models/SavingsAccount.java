@@ -22,7 +22,7 @@ public class SavingsAccount extends Account{
     @Override
     public String toString()
     {
-        return "Savings Account - account number: " + this.getNumber() + " - balance: $" + this.getBalance();
+        return String.format("%s %s %s%.2f", "Savings Account - account number: ",number," - balance: $",this.getBalance());
     }
     @Override
     public double deposit(double amount) throws IllegalInputException

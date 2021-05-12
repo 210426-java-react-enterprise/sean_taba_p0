@@ -9,20 +9,16 @@ import java.util.Scanner;
 public class StartScreen extends Screen {
 
     private Scanner scanner;
-    private static StartScreen instance;
+    private InputValidator inputValidator;
+    private ScreenManager screenManager;
+    private Controller controller;
 
-    private StartScreen(String identifier) {
-        super(identifier);
-        scanner = Controller.getInstance().getScanner();
-    }
-
-    public static StartScreen getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new StartScreen("/start");
-        }
-        return instance;
+    public StartScreen(Scanner scanner, InputValidator inputValidator, ScreenManager screenManager, Controller controller) {
+        super("/start");
+        this.scanner = scanner;
+        this.inputValidator = inputValidator;
+        this.screenManager = screenManager;
+        this.controller = controller;
     }
 
     @Override
@@ -34,20 +30,20 @@ public class StartScreen extends Screen {
         System.out.print("What would you like to do,\n\n1.Create an account\n2.Login to your account\n3.Quit\n\nPlease enter your choice: ");
         try {
             String readLine = scanner.nextLine();
-            input = InputValidator.validate(readLine,1, 3);
+            input = inputValidator.validate(readLine,1, 3);
             if(input != -1)
             {
                 switch (input)
                 {
                     case 1:
-                        ScreenManager.getInstance().navigate("/create user");
+                        screenManager.navigate("/create user");
                         break;
                     case 2:
-                        ScreenManager.getInstance().navigate("/login");
+                        screenManager.navigate("/login");
                         break;
                     case 3:
                         System.out.println("Thank you for visiting.\n\nShutting down!\n");
-                        Controller.getInstance().setAppRunning(false);
+                        controller.setAppRunning(false);
                 }
             }
 

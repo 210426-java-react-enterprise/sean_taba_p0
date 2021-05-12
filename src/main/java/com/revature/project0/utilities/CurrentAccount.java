@@ -20,7 +20,6 @@ public class CurrentAccount
         }
         return instance;
     }
-
     public Account getAccount()
     {
         return account;
