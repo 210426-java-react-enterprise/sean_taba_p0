@@ -67,6 +67,7 @@ public class MyList<T> implements List<T>, Iterable<T> {
     public boolean add(T element) throws IllegalInputException
     {
         if (element == null) throw new IllegalInputException();
+
         if(array.length == numberOfElements) grow();
         array[numberOfElements] = element;
         numberOfElements++;

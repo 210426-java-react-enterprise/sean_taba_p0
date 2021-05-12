@@ -5,33 +5,16 @@ import com.revature.project0.utilities.CurrentCustomer;
 import com.revature.project0.utilities.MyList;
 import exceptions.IllegalInputException;
 
-import javax.accessibility.AccessibleAction;
 import java.sql.*;
 
 public class DAO
 {
-
     private final Connection connection;
-    private static DAO instance;
-
-    private DAO() throws SQLException, ClassNotFoundException
-    {
-        Class.forName("org.postgresql.Driver");
-        this.connection = ConnectionManager.getInstance().getConnection();
-    }
 
     public DAO(Connection connection)
     {
+//        Class.forName("org.postgresql.Driver");
         this.connection = connection;
-    }
-
-    public static DAO getInstance() throws SQLException, ClassNotFoundException
-    {
-        if (instance == null)
-        {
-            instance = new DAO();
-        }
-        return instance;
     }
 
     public boolean tryNewUsername(String username) throws SQLException
@@ -182,34 +165,6 @@ public class DAO
         {
             lastTableNumber = resultSet.getInt(1);
         }
-
-//        if (lastTableNumber != 0)
-//        {
-//            String newTableName = "project0." + identifier + ++lastTableNumber;
-//            query = "create table " + newTableName +" (" +
-//                    "id serial not null ," +
-//                    "transaction varchar(10) not null ," +
-//                    "amount decimal not null," +
-//                    "balance decimal not null," +
-//                    "customer_ssn varchar (12) not null, foreign key(customer_ssn) references project0.customers(ssn))";
-//            PreparedStatement preparedStatement1 = connection.prepareStatement(query);
-////            preparedStatement1.setString(1, newTableName);
-//            preparedStatement1.executeUpdate();
-//            query = "insert into " + newTableName + " values(1,'deposit',0,0," + CurrentCustomer.getInstance().getCustomer().getSsn() + ")";
-//            preparedStatement1 = connection.prepareStatement(query);
-//            preparedStatement1.executeUpdate();
-//            String accountLabel = null;
-//            switch(identifier)
-//            {
-//                case 'c':
-//                    accountLabel = "checking";
-//                    break;
-//                case 's':
-//                    accountLabel = "savings";
-//                    break;
-//                case 't':
-//                    accountLabel = "trust";
-//            }
 
         query = "insert into project0.accounts (user_name,account,customer_ssn,number) values(?,?,?,?);";
         PreparedStatement preparedStatement1 = connection.prepareStatement(query);

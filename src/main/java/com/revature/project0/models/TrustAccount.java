@@ -23,7 +23,7 @@ public class TrustAccount extends Account
     @Override
     public String toString()
     {
-        return "Trust Account - account number: " + this.getNumber() + " - balance: $" + this.getBalance();
+        return String.format("%s %s %s%.2f", "Trust Account - account number: ",number," - balance: $",this.getBalance());
     }
 
     @Override
