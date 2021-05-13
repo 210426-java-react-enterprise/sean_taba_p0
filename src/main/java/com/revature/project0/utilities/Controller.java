@@ -36,6 +36,7 @@ public class Controller {
         properties = new Properties();
         try {
             properties.load(new FileReader("src/main/resources/application.properties"));
+
         } catch (IOException e)
         {
             e.printStackTrace();

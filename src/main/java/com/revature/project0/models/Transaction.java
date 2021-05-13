@@ -31,10 +31,10 @@ public class Transaction
     @Override
     public String toString()
     {
-        return "Transaction\t-\t" +
+        return "{Transaction - " +
                 "type = '" + type + '\'' +
-                ",\t\tamount =\t$" + amount +
-                ",\t\tbalance =\t$" + balance +
+                ", amount = $" + amount +
+                ", balance = $" + balance +
                 '}';
     }
 }

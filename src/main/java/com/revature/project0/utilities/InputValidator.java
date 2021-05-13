@@ -1,8 +1,12 @@
 package com.revature.project0.utilities;
 
+/*
+    This class is responsible for user input validation.
+
+ */
+
 import com.revature.project0.models.Account;
 import com.revature.project0.persistance.DAO;
-
 import java.sql.SQLException;
 
 public class InputValidator {
@@ -198,6 +202,7 @@ public class InputValidator {
                 {
                     if (account.getNumber().equals(input)) return input;
                 }
+                System.out.println("\nThis customer does not own the account entered. Please try again.");
                 return null;
 
             case "/withdraw":

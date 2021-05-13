@@ -148,7 +148,10 @@ public class UserAccountScreen extends Screen
                         break;
                     case 3:
                         Account account1 = getCustomerAccount();
-                        if (account1 == null) break;
+                        if (account1 == null)
+                        {
+                            break;
+                        }
 
                         System.out.println("\n" + account1 + "\n");
                         for (Transaction transaction : account1.getTransactions())
